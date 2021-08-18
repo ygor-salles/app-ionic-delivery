@@ -5,84 +5,100 @@
     <ion-item>
       <ion-icon name="person" slot="start"></ion-icon>
       <ion-label position="floating">Nome</ion-label>
-      <ion-input></ion-input>
+      <ion-input [(ngModel)]="order.client_name"></ion-input>
     </ion-item>
   
     <ion-item>
       <ion-icon name="call" slot="start"></ion-icon>
       <ion-label position="floating">Telefone</ion-label>
-      <ion-input></ion-input>
+      <ion-input [(ngModel)]="order.phone" mask="(00) 00000-0000 || (00) 0000-0000" type="text" ></ion-input>
     </ion-item>
   </ion-card>
 
   <ion-card>
     <ion-list-header>
       <ion-label>
-        Single Selection
+        Forma de Pagamento / Forma de Entrega
       </ion-label>
     </ion-list-header>
   
     <ion-item>
       <ion-icon name="card" slot="start"></ion-icon>
       <ion-label>Forma de Pagamento</ion-label>
-      <ion-select placeholder="Selecione a forma de pagamento" okText="Okay" cancelText="Cancelar">
-        <ion-select-option value="f">Cartão</ion-select-option>
-        <ion-select-option value="f">Dinheiro</ion-select-option>
-        <ion-select-option value="m">Pix</ion-select-option>
+      <ion-select placeholder="Selecione a forma de pagamento" okText="Okay" cancelText="Cancelar" [(ngModel)]="order.payment">
+        <ion-select-option value="credito">Cartão de Crédito</ion-select-option>
+        <ion-select-option value="debito">Cartão de Débito</ion-select-option>
+        <ion-select-option value="dinheiro">Dinheiro</ion-select-option>
+        <ion-select-option value="pix">Pix</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-icon name="send" slot="start"></ion-icon>
       <ion-label>Forma de Entrega</ion-label>
-      <ion-select placeholder="Selecione o tipo de entrega" okText="Okay" cancelText="Cancelar">
-        <ion-select-option value="brown">Retirar no Local</ion-select-option>
-        <ion-select-option value="blonde">Receber em casa</ion-select-option>
+      <ion-select placeholder="Selecione o tipo de entrega" okText="Okay" cancelText="Cancelar" [(ngModel)]="order.withdrawal">
+        <!-- <ion-select-option value="restaurante">Retirar no Restaurante</ion-select-option> -->
+        <ion-select-option value="local">Receber em casa</ion-select-option> 
       </ion-select>  
     </ion-item>
   </ion-card>
 
-  <ion-card>
-    <ion-list-header>
-      <ion-label>
-        NO MEU ENDEREÇO
-      </ion-label>
-    </ion-list-header>
-
-    <ion-item>
-      <ion-label position="floating">Bairro</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Rua</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Nº</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Ponto de Referência</ion-label>
-      <ion-input></ion-input>
+  <ion-card *ngIf="order.payment === 'dinheiro'">
+    <ion-item >
+      <ion-label position="floating">Troco para...</ion-label>
+      <ion-input [(ngModel)]="order.change_of_money" type="number"></ion-input>
     </ion-item>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="order.withdrawal === 'local'">
+    <ion-list-header>
+      <ion-label style="text-align: center; font-weight: bold;">
+        NO MEU ENDEREÇO
+      </ion-label>
+    </ion-list-header>
+    
+    <!-- <ion-item>
+      <ion-label position="floating">CEP*</ion-label>
+      <ion-input [(ngModel)]="order.cep" mask="00000-000"></ion-input>
+    </ion-item> -->
+    <ion-item>
+      <ion-label position="floating">Cidade</ion-label>
+      <ion-input [(ngModel)]="order.address_city"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Bairro*</ion-label>
+      <ion-input [(ngModel)]="order.address_neighborhood"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Rua*</ion-label>
+      <ion-input [(ngModel)]="order.address_street"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Nº*</ion-label>
+      <ion-input [(ngModel)]="order.address_number" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Ponto de Referência</ion-label>
+      <ion-input [(ngModel)]="order.reference_point"></ion-input>
+    </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="order.withdrawal === 'local'">
     <ion-list-header>
       <ion-label style="font-weight: bold;">
-        Frete: R$ 5,00
+        Frete: R{{order.cost_freight | currency}}
       </ion-label>
     </ion-list-header>
   </ion-card>
 </ion-content>
 
 <div class="line">
-  <ion-title slot="end" style="font-size: 16px; font-weight: bold; margin: 10px;">
-    Total: R$ 15,00
+  <ion-title slot="end" class="valor-total">
+    Total: R{{valorTotal | currency}}
   </ion-title>
 </div>
 <ion-toolbar class="tool-advance">
-  <ion-title routerLink="/home" class="advance" >
+  <ion-title (click)="createOrder()" class="advance" >
     CONFIRMAR PEDIDO
   </ion-title>
 </ion-toolbar>

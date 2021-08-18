@@ -4,10 +4,10 @@
   <ion-list *ngFor="let p of productsFinal, let i = index">
     <ion-card>        
       <ion-item>
-        <ion-icon name="trash" slot="end" (click)="remove(p, i)"></ion-icon>
+        <ion-icon class="trash" name="trash" slot="end" (click)="remove(p, i)"></ion-icon>
         <ion-card-header>
-          <ion-card-subtitle>{{p.name}} </ion-card-subtitle>
-          <ion-card-subtitle>Valor: {{p.price}}</ion-card-subtitle>
+          <ion-card-subtitle>{{p.product_name}} </ion-card-subtitle>
+          <ion-card-subtitle>Valor: {{p.total_item}}</ion-card-subtitle>
         </ion-card-header>
       </ion-item>
     </ion-card>
@@ -25,7 +25,7 @@
   </ion-title>
 </ion-toolbar>
 <ion-toolbar class="tool-advance">
-  <ion-title routerLink="/cart-confirm" class="advance" >
+  <ion-title (click)="goToConfirm()" class="advance" >
     FINALIZAR PEDIDO
   </ion-title>
 </ion-toolbar>

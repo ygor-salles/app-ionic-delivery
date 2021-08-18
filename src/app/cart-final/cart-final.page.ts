@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,33 +9,46 @@ import { Router } from '@angular/router';
 export class CartFinalPage implements OnInit {
   productsFinal = [];
   lst = [];
+  lst2 = [];
   valorTotal = 0;
 
   constructor(
-    private route: Router,
+    private router: Router,
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    this.lst = JSON.parse(localStorage.getItem('lstAllProducts'));
     this.initPage();
   }
 
   initPage(){
-    this.productsFinal = JSON.parse(localStorage.getItem('lstAllProducts'));
-    this.valorTotal = +localStorage.getItem('valorTotal');
+    this.lst = JSON.parse(localStorage.getItem('lstAllProducts'));
+    this.lst2 = JSON.parse(localStorage.getItem('lst'));
+    this.valorTotal += JSON.parse(localStorage.getItem('valorTotal'));
+
+    console.log(this.lst2);
+
+    this.lst2.forEach((p) =>{
+      this.productsFinal.push(p);
+    });
+
+    localStorage.setItem('lst', JSON.stringify(this.productsFinal));
   }
 
   remove(p, i){
-    this.productsFinal.splice(p, i);
-    console.log(i);
-    console.log(this.productsFinal);
+    this.productsFinal.splice(i, i+1);
+    this.valorTotal -= p.total_item;
   }
 
   goToConfirm(){
-
+    localStorage.valorTotal = this.valorTotal;
+    if(this.valorTotal !== 0){
+      this.router.navigateByUrl('/cart-confirm');
+    }else{
+      console.log('error');
+    }
   }
 
 }
