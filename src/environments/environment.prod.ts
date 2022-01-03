@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://back-delivery.herokuapp.com/api',
-  productImagesServerUrl: 'https://back-delivery.herokuapp.com/api/'
+  apiUrl: 'https://delivery-marmita.herokuapp.com/api',
+  productImagesServerUrl: 'https://delivery-marmita.herokuapp.com/api/'
 };
