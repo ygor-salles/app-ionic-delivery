@@ -15,6 +15,7 @@ export class SelectProductPage implements OnInit {
   routeFlag = '';
   typeFlag = '';
   valorTotal = 0;
+  loading = false;
 
   constructor(
     private selectProductSvc: SelectProductService,
@@ -36,26 +37,31 @@ export class SelectProductPage implements OnInit {
   }
 
   transformImageUrl(imageUrl: string): string {
-    return transformProductImageUrl(imageUrl);
+    return imageUrl.slice(0, 4) === 'http' ? imageUrl :  transformProductImageUrl(imageUrl);
   }
 
   getAllProducts(size: string, type: string) {
+    this.loading = true;
     if (type === 'marmita') {
       this.selectProductSvc.getAllProductsMarmita(size).subscribe(
         result => {
           this.productLst = result;
+          this.loading = false;
         },
         err => {
           console.log('Não foi possivel pegar a lista de produtos');
+          this.loading = false;
         });
     }
     else if (type === 'bebidas') {
       this.selectProductSvc.getAllProductsBebida().subscribe(
         result => {
           this.productLst = result;
+          this.loading = false;
         },
         err => {
           console.log('Não foi possivel pegar a lista de produtos');
+          this.loading = false;
         });
     }
   }

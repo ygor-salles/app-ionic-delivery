@@ -13,6 +13,7 @@ export class ProductPage implements OnInit {
   routeFlag: number;
   productMarmitaSizeLst: Product[];
   productBebidaSizeLst: Product[];
+  loading = false;
 
   constructor(
     public router: Router,
@@ -21,6 +22,7 @@ export class ProductPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.routeFlag = +this.actRoute.snapshot.paramMap.get('pid');
     if (this.routeFlag === 1) {
       this.getMarmitaSize();
@@ -31,6 +33,7 @@ export class ProductPage implements OnInit {
   getMarmitaSize() {
     this.getSizeSvc.getAllSize().subscribe(result => {
       this.productMarmitaSizeLst = result;
+      this.loading = false;
     });
   }
 
