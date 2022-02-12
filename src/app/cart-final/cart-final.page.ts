@@ -1,5 +1,6 @@
-import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { OrderProduct } from './../models/orderProduct.model';
 
 @Component({
   selector: 'app-cart-final',
@@ -7,9 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart-final.page.scss'],
 })
 export class CartFinalPage implements OnInit {
-  productsFinal = [];
-  lst = [];
-  lst2 = [];
+  listaProdutos: OrderProduct[] = [];
   valorTotal = 0;
 
   constructor(
@@ -23,30 +22,23 @@ export class CartFinalPage implements OnInit {
     this.initPage();
   }
 
-  initPage(){
-    this.lst = JSON.parse(localStorage.getItem('lstAllProducts'));
-    this.lst2 = JSON.parse(localStorage.getItem('lst'));
+  initPage() {
+    this.listaProdutos = JSON.parse(localStorage.getItem('lst'));
     this.valorTotal += JSON.parse(localStorage.getItem('valorTotal'));
-
-    console.log(this.lst2);
-
-    this.lst2.forEach((p) =>{
-      this.productsFinal.push(p);
-    });
-
-    localStorage.setItem('lst', JSON.stringify(this.productsFinal));
   }
 
-  remove(p, i){
-    this.productsFinal.splice(i, i+1);
+  remove(p: OrderProduct, i: number) {
+    this.listaProdutos.splice(i, 1);
     this.valorTotal -= p.total_item;
+    localStorage.setItem('lst', JSON.stringify(this.listaProdutos));
+    localStorage.setItem('valorTotal', JSON.stringify(this.valorTotal));
   }
 
-  goToConfirm(){
+  goToConfirm() {
     localStorage.valorTotal = this.valorTotal;
-    if(this.valorTotal !== 0){
+    if (this.valorTotal !== 0) {
       this.router.navigateByUrl('/cart-confirm');
-    }else{
+    } else {
       console.log('error');
     }
   }

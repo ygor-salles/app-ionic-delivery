@@ -1,8 +1,8 @@
 <app-top-bar></app-top-bar>
 
 <ion-content>
-  <ion-list *ngFor="let p of productsFinal, let i = index">
-    <ion-card>        
+  <ion-list *ngFor="let p of listaProdutos, let i = index">
+    <ion-card>
       <ion-item>
         <ion-icon class="trash" name="trash" slot="end" (click)="remove(p, i)"></ion-icon>
         <ion-card-header>
@@ -15,18 +15,17 @@
 </ion-content>
 
 <div class="line">
-  <ion-title slot="end"  class="valor-total">
+  <ion-title slot="end" class="valor-total">
     Total: R{{ valorTotal | currency}}
   </ion-title>
 </div>
 <ion-toolbar class="tool-advance-continue">
-  <ion-title routerLink="/home" class="advance-continue" >
+  <ion-title routerLink="/home" class="advance-continue">
     CONTINUAR COMPRANDO
   </ion-title>
 </ion-toolbar>
 <ion-toolbar class="tool-advance">
-  <ion-title (click)="goToConfirm()" class="advance" >
+  <ion-title (click)="goToConfirm()" class="advance">
     FINALIZAR PEDIDO
   </ion-title>
 </ion-toolbar>
-

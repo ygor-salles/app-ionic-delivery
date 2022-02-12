@@ -21,23 +21,21 @@ export class SelectProductPage implements OnInit {
     private selectProductSvc: SelectProductService,
     public router: Router,
     public actRoute: ActivatedRoute,
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ionViewWillEnter() {
     this.routeFlag = this.actRoute.snapshot.paramMap.get('sizeid');
     this.typeFlag = this.actRoute.snapshot.paramMap.get('product-sel');
 
     this.getAllProducts(this.routeFlag, this.typeFlag);
-    localStorage.removeItem('lst');
-    localStorage.removeItem('valorTotal');
 
     this.valorTotal = 0;
   }
 
   transformImageUrl(imageUrl: string): string {
-    return imageUrl.slice(0, 4) === 'http' ? imageUrl :  transformProductImageUrl(imageUrl);
+    return imageUrl.slice(0, 4) === 'http' ? imageUrl : transformProductImageUrl(imageUrl);
   }
 
   getAllProducts(size: string, type: string) {
