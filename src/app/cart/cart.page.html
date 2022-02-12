@@ -18,7 +18,7 @@
       </ion-item>
     </ion-card>
 
-    <ion-card *ngIf="isBebida">
+    <ion-card *ngIf="isMarmita">
       <ion-item>
         <ion-label class="labels-cart">Opcionais</ion-label>
       </ion-item>
@@ -29,14 +29,16 @@
               <ion-label>{{ option.name }} - R{{ option.price | currency }}</ion-label>
             </div>
             <div class="container-checkbox">
-              <ion-checkbox fill="outline" color="primary" [(ngModel)]="option.isChecked" (click)="checkedOption(option)">
+              <ion-checkbox fill="outline" color="primary" [(ngModel)]="option.isChecked"
+                (click)="checkedOption(option)">
               </ion-checkbox>
             </div>
             <div class="container-quantidade">
               <ion-label slot="start" class="labels-cart">Qtd</ion-label>
             </div>
             <div class="conatiner-buttons-qtd">
-              <ion-icon class="button-remove" name="remove-circle" slot="end" (click)="subtAmountOption(option)"></ion-icon>
+              <ion-icon class="button-remove" name="remove-circle" slot="end" (click)="subtAmountOption(option)">
+              </ion-icon>
               <ion-label class="amount-option">{{option.amountOption}}</ion-label>
               <ion-icon class="button-add" name="add-circle" slot="end" (click)="sumAmountOption(option)"></ion-icon>
             </div>
@@ -45,7 +47,7 @@
       </ion-card-header>
     </ion-card>
 
-    <ion-card *ngIf="isBebida">
+    <ion-card *ngIf="isMarmita">
       <ion-item>
         <ion-label position="floating" class="labels-cart">
           Observações
@@ -55,7 +57,7 @@
     </ion-card>
 
     <div style="margin-top: 20px;">
-      <hr >
+      <hr>
     </div>
   </ion-list>
 

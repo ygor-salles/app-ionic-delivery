@@ -25,49 +25,54 @@ export class CartPage implements OnInit {
   allProducts: Product[] = [];
   observation = [];
   meetOption: MeetOptions[] = [];
-  isBebida: boolean;
+  isMarmita: boolean;
 
   constructor(
     private meetOptionSvc: SelectOptionService,
     public router: Router
   ) { }
 
-  ngOnInit() {
-    this.allProducts = JSON.parse(localStorage.getItem('lst'));
-    const primeiroProduto = this.allProducts[0];
-
-    if (primeiroProduto.type === 'marmita') {
-      this.getOptions();
-      this.isBebida = true;
-    }
-  }
+  ngOnInit() { }
 
   ionViewWillEnter() {
-    this.valorTotal = +localStorage.getItem('valorTotal');
-
-    if (this.isBebida) {
-      this.allProducts.forEach(marmita => {
-        this.meetOption.forEach(opt => {
-          marmita.meet_options.push({
-            id: opt.id,
-            name: opt.name,
-            price: opt.price,
-            amountOption: 0,
-            isChecked: false,
-          });
-        });
-        marmita.amount = 1;
-      });
-    } else {
-      this.allProducts.forEach(bebida => bebida.amount = 1);
-    }
-
-  }
-
-  getOptions() {
     this.meetOptionSvc.getOptions().subscribe(result => {
       this.meetOption = result;
+
+      this.allProducts = JSON.parse(localStorage.getItem('lst'));
+      this.valorTotal = +localStorage.getItem('valorTotal');
+
+      const primeiroProduto = this.allProducts[0];
+
+      if (primeiroProduto.type === 'marmita') {
+        this.isMarmita = true;
+      }
+
+      if (this.isMarmita) {
+        this.setArrayMarmitas();
+      }
+      else {
+        this.setArrayBebidas();
+      }
     });
+  }
+
+  setArrayMarmitas() {
+    this.allProducts.forEach(marmita => {
+      this.meetOption.forEach(opt => {
+        marmita.meet_options.push({
+          id: opt.id,
+          name: opt.name,
+          price: opt.price,
+          amountOption: 0,
+          isChecked: false,
+        });
+      });
+      marmita.amount = 1;
+    });
+  }
+
+  setArrayBebidas() {
+    this.allProducts.forEach(bebida => bebida.amount = 1);
   }
 
   addItem(product: Product) {
