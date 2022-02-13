@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Pedido } from '../models/pedido.model';
 import { OrderProduct } from './../models/orderProduct.model';
 
 @Component({
@@ -23,7 +24,8 @@ export class CartFinalPage implements OnInit {
   }
 
   initPage() {
-    this.listaProdutos = JSON.parse(localStorage.getItem('lst'));
+    const carrinho: Pedido = JSON.parse(localStorage.getItem('lstAllProducts'));
+    this.listaProdutos = carrinho.products;
     this.valorTotal += JSON.parse(localStorage.getItem('valorTotal'));
   }
 

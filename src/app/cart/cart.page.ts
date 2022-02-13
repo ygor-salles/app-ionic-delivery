@@ -58,15 +58,17 @@ export class CartPage implements OnInit {
 
   setArrayMarmitas() {
     this.allProducts.forEach(marmita => {
-      this.meetOption.forEach(opt => {
-        marmita.meet_options.push({
-          id: opt.id,
-          name: opt.name,
-          price: opt.price,
-          amountOption: 0,
-          isChecked: false,
+      if (!marmita.meet_options.length) {
+        this.meetOption.forEach(opt => {
+          marmita.meet_options.push({
+            id: opt.id,
+            name: opt.name,
+            price: opt.price,
+            amountOption: 0,
+            isChecked: false,
+          });
         });
-      });
+      }
       marmita.amount = 1;
     });
   }
@@ -152,8 +154,6 @@ export class CartPage implements OnInit {
       }
     });
 
-    localStorage.setItem('lst', JSON.stringify(orderProduct));
-
     if (!carrinhoCheio) {
       localStorage.setItem('lstAllProducts', JSON.stringify({
         client_name: null,
@@ -174,6 +174,7 @@ export class CartPage implements OnInit {
       }));
     }
 
+    localStorage.setItem('lst', JSON.stringify(this.allProducts));
     localStorage.valorTotal = this.valorTotal;
     this.router.navigateByUrl('/cart-final');
   }
